@@ -1,5 +1,5 @@
 var lastData = null;
-  
+
 // platforms are [x, y, spriteKey, scale] and ordered by height
 var platformLocations = [[0, -175, 'platform', 2],
                          [800, -175, 'platform', 2], [-800, -175, 'platform', 2],
@@ -14,20 +14,22 @@ var platformLocations = [[0, -175, 'platform', 2],
                          [800, 375, 'cloud', 1], [-800, 375, 'cloud', 1],
                          [400, 350, 'platform', 2], [-400, 350, 'platform', 2]];
 
+var music;
+
 var create = function(){
   socket = io.connect();
   socket.emit('username', {username: playerUsername});
-  
+
   //  Phaser will automatically pause if the browser tab the game is in loses focus. Disabled this below.
   //  NOTE: Uncomment the following line for testing if you want to have two games playing in two browsers.
   // this.stage.disableVisibilityChange = true;
 
   game.world.setBounds(-2000, -2000, 4000, 4000 );
   game.time.desiredFps = 45;
-  
+
   game.camera.x = -game.camera.width / 2;
   game.camera.y = -game.camera.height / 2;
-  
+
   game.physics.startSystem(Phaser.Physics.ARCADE);
 
   // Adds the forest and lava background
@@ -45,7 +47,7 @@ var create = function(){
   // Instantiate object to hold other chickens
   otherChickens = {};
 
-  // Respawns the player 
+  // Respawns the player
   socket.on('newLocation', function(data){
     player = new Player(game, data.x, data.y, false);
     game.add.existing(player);
@@ -77,7 +79,11 @@ var create = function(){
   cursors = game.input.keyboard.createCursorKeys();
 
   game.onPause.add(pauseGame, this);
-  game.onResume.add(resumeGame, this);  
+  game.onResume.add(resumeGame, this);
+
+  // Music
+  music = game.add.audio('boden');
+  music.play();
 };
 
 var pauseGame = function() {
@@ -143,8 +149,8 @@ var drawEnvironment = function() {
 var viewInstructions = function() {
   var margin = 10;
   bmpText = game.add.bitmapText(-game.camera.width / 2 + margin,
-                                -game.camera.height / 2 + margin, 
-                                'carrier_command', 
+                                -game.camera.height / 2 + margin,
+                                'carrier_command',
                                 'Move: arrow keys\n\nJump: SPACEBAR\n\nDash: C', 17);
 
   bmpText.fixedToCamera = true;
@@ -159,7 +165,7 @@ var viewInstructions = function() {
 var createPlatforms = function() {
   platforms = game.add.group();
   platforms.enableBody = true;
-  
+
   platformLocations.forEach(function(platformCoords){
     var platform = platforms.create(platformCoords[0], platformCoords[1], platformCoords[2]);
     platform.scale.x = platformCoords[3];
@@ -172,9 +178,9 @@ var createPlatforms = function() {
 var setCamera = function(){
   var cameraMargin = 250;
   game.camera.follow(player);
-  game.camera.deadzone = new Phaser.Rectangle(cameraMargin, 
-                                              cameraMargin, 
-                                              game.camera.width - cameraMargin * 2, 
+  game.camera.deadzone = new Phaser.Rectangle(cameraMargin,
+                                              cameraMargin,
+                                              game.camera.width - cameraMargin * 2,
                                               game.camera.height - cameraMargin * 2);
-  game.camera.focusOnXY(0, 0);    
+  game.camera.focusOnXY(0, 0);
 };
