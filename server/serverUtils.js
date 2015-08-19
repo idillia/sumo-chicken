@@ -1,7 +1,11 @@
 var Lobby = require('./Lobby.js').Lobby;
 
 // All lobbies
-var lobbies = []; 
+var gameModes = ['Classic', 'Kill Count'];
+var lobbies = {};
+for (var i = 0; i < gameModes.length; i++) {
+  lobbies[gameModes[i]] = [];
+}
 var maxLobbySize = 100;
 
 // Hash takes socketID and gives lobbyID
@@ -10,26 +14,26 @@ var playerLobbies = {}; // to improve lookup when finding lobby that a player is
 /* Helper function: gets the next lobby with an empty space 
  * returns a tuple of lobbyID and position in the lobby
  */
-var getNextLobby = function() {
-
+var getNextLobby = function(mode) {
+  mode = mode || 'Classic';
   var lobby;
-  for (var i = lobbies.length - 1; i >= 0; i--) {
-    if (!lobbies[i].full()) {
-      lobby = lobbies[i];
+  for (var i = lobbies[mode].length - 1; i >= 0; i--) {
+    if (!lobbies[mode][i].full()) {
+      lobby = lobbies[mode][i];
     }
   }
 
   if (!lobby) {
     lobby = new Lobby(maxLobbySize);
+    lobbies[mode].push(lobby);
   }
 
-  lobbies.push(lobby);
   return lobby;
 };
 
 // Given a new socketID, inserts the new player into a lobby
-var addToLobby = function(socketID) {
-  var openLobby = getNextLobby();
+var addToLobby = function(socketID, mode) {
+  var openLobby = getNextLobby(mode);
   openLobby.addPlayer(socketID);
   playerLobbies[socketID] = openLobby;
 };
