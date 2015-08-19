@@ -6,8 +6,8 @@ var update = function(){
 
   if (player) {
     var score = game.add.bitmapText(-100,
-                                  - game.camera.height / 2 + 30, 
-                                  'carrier_command', 
+                                  - game.camera.height / 2 + 30,
+                                  'carrier_command',
                                   'SCORE:'+player.score, 30);
 
 
@@ -52,9 +52,9 @@ var update = function(){
 
     lastData = null;
 
-    socket.emit('sync', {'PX': player.x, 
+    socket.emit('sync', {'PX': player.x,
                          'PY': player.y,
-                         'VX': player.body.velocity.x, 
+                         'VX': player.body.velocity.x,
                          'VY': player.body.velocity.y,
                          'dashBool': dashButton.isDown
                         });
@@ -92,7 +92,7 @@ var update = function(){
 
   if (player.body.touching.down) {
     if (player.body.velocity.x !== 0) {
-      if (!dashButton.isDown) 
+      if (!dashButton.isDown)
         player.animations.play('walking');
     } else {
       player.frame = 0;
@@ -113,6 +113,10 @@ var update = function(){
   // Increase stored dashMeter
   player.chargeDash();
 
+  if (player.y > 365) {
+    music.stop();
+    sfx.play('explosion');
+  }
 };
 
 var collideChickens = function(otherChicken, thisChicken) {
@@ -147,10 +151,10 @@ var addAnimations = function(chicken) {
   if (mathSign !== 0) {
     chicken.scale.x = mathSign > 0 ? -Math.abs(chicken.scale.x) : Math.abs(chicken.scale.x);
     if (chicken.children.length > 0) chicken.children[0].scale.x = mathSign > 0 ? -1 : 1;
-  } 
+  }
   if (chicken.body.velocity.y !== 0) {
     chicken.animations.stop();
-    chicken.frame = 24; 
+    chicken.frame = 24;
   } else if (chicken.body.velocity.x !== 0) {
     chicken.animations.play(chicken.dashing ? 'flying' : 'walking');
   } else {
@@ -159,9 +163,9 @@ var addAnimations = function(chicken) {
 };
 
 var sendSync = function() {
-  socket.emit('sync', {'PX': player.x, 
+  socket.emit('sync', {'PX': player.x,
                        'PY': player.y,
-                       'VX': player.body.velocity.x, 
+                       'VX': player.body.velocity.x,
                        'VY': player.body.velocity.y,
                        'dashBool': dashButton.isDown
                       }
