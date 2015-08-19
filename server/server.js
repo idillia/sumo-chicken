@@ -34,7 +34,6 @@ io.on('connection', function(socket) {
     playerUtils.resetKills(socket.id);
     if (data.killer !== null) playerUtils.incrementKills(data.killer);
     socket.emit('newLocation', playerUtils.getStartLoc());
-    playerUtils.newPlayer(socket.id);
   });
 
   // Pause and unpause players

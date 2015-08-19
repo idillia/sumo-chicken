@@ -6,7 +6,7 @@ var lobbies = {};
 for (var i = 0; i < gameModes.length; i++) {
   lobbies[gameModes[i]] = [];
 }
-var maxLobbySize = 100;
+var maxLobbySize = 8;
 
 // Hash takes socketID and gives lobbyID
 var playerLobbies = {}; // to improve lookup when finding lobby that a player is in
