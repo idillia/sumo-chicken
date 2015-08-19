@@ -18,6 +18,22 @@ var platformLocations = [[0, -175, 'platform', 2],
 var music;
 var sfx;
 
+var Explosion = function() {
+  var played = false;
+  this.play = function() {
+    if (!played) {
+      played = true;
+      sfx.play('explosion');
+    }
+  };
+  this.stop = function() {
+    played = false;
+    sfx.stop('explosion');
+  };
+};
+
+var explosion = new Explosion();
+
 var create = function(){
   socket = io.connect();
   socket.emit('username', {username: playerUsername});
@@ -49,6 +65,8 @@ var create = function(){
   // Instantiate object to hold other chickens
   otherChickens = {};
 
+
+
   // Respawns the player
   socket.on('newLocation', function(data){
     player = new Player(game, data.x, data.y, false);
@@ -56,7 +74,7 @@ var create = function(){
     setCamera();
     player.addUsernameLabel(playerUsername);
     lava.bringToTop();
-    sfx.stop('explosion');
+    explosion.stop();
     music.play();
   });
 
@@ -192,3 +210,4 @@ var setCamera = function(){
                                               game.camera.height - cameraMargin * 2);
   game.camera.focusOnXY(0, 0);
 };
+

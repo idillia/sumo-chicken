@@ -115,7 +115,7 @@ var update = function(){
 
   if (player.y > 365) {
     music.stop();
-    sfx.play('explosion');
+    explosion.play();
   }
 };
 
