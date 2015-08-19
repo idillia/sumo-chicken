@@ -15,6 +15,7 @@ var platformLocations = [[0, -175, 'platform', 2],
                          [800, 375, 'cloud', 1], [-800, 375, 'cloud', 1],
                          [400, 350, 'platform', 2], [-400, 350, 'platform', 2]];
 
+
 var music;
 var sfx;
 var audioSprite;
@@ -35,6 +36,8 @@ var Explosion = function() {
 
 var explosion = new Explosion();
 
+
+var heart;
 var create = function(){
   socket = io.connect({query: 'mode=' + selectedMode});
   socket.emit('username', {username: playerUsername});
@@ -102,6 +105,7 @@ var create = function(){
   cursors = game.input.keyboard.createCursorKeys();
 
   game.onPause.add(pauseGame, this);
+
   game.onResume.add(resumeGame, this);
 
   // Music
@@ -111,11 +115,36 @@ var create = function(){
   // Sound Effects
   sfx = game.add.audio('explosion');
   sfx.addMarker('explosion', 1, 2.5);
+  
   audioSprite = game.add.audio('audioSprite');
   audioSprite.addMarker('bump', 1, 1.0);
   audioSprite.addMarker('dash', 12, 4.2);
   audioSprite.addMarker('jump', 8, 0.5);
+ 
+  // create new collectables
+
+  hearts = game.add.group();
+  hearts.enableBody = true;
+  //  Here we'll create 12 of them evenly spaced apart
+    for (var i = 0; i < 100; i++)
+    {
+        //  Create a star inside of the 'hearts' group
+        var heart = hearts.create(game.camera.randomX, game.camera.randomY, 'heart');
+
+        //  Let gravity do its thing
+        // heart.body.gravity.y = 6;
+
+        //  This just gives each star a slightly random bounce value
+        // heart.body.bounce.y = 0.7 + Math.random() * 0.2;
+    }
+  var score = 0;
+  var scoreText;
+  
+  scoreText = game.add.bitmapText(0, 0, 'carrier_command', 'collected: 0', 30);
+  scoreText.fixedToCamera = true;
+  scoreText.cameraOffset.setTo(10, 10);
 };
+
 
 var pauseGame = function() {
   socket.emit('pause');
@@ -131,6 +160,7 @@ var upgradeChicken = function(chicken, score) {
 };
 
 var syncExistingChicken = function(chicken, data) {
+
   if (data.username !== '') chicken.addUsernameLabel(data.username);
   if (!data.paused) {
     chicken.tint = 0xFFFFFF;
@@ -215,4 +245,5 @@ var setCamera = function(){
                                               game.camera.height - cameraMargin * 2);
   game.camera.focusOnXY(0, 0);
 };
+
 

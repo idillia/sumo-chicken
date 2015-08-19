@@ -8,6 +8,7 @@ var preload = function(){
   game.load.image('platform', 'assets/platform.png');
   game.load.image('background', 'assets/forest.png');
   game.load.image('lava', 'assets/lava.png'); // lava sourced from: http://walen.se/sprites/?level=picture&id=969
+  game.load.image('heart', 'assets/Heart.png');
 
   game.stage.smoothed = false;
 
