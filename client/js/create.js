@@ -1,6 +1,6 @@
 var lastData = null;
 var scoreList = [];
-  
+
 // platforms are [x, y, spriteKey, scale] and ordered by height
 var platformLocations = [[0, -175, 'platform', 2],
                          [800, -175, 'platform', 2], [-800, -175, 'platform', 2],
@@ -16,6 +16,23 @@ var platformLocations = [[0, -175, 'platform', 2],
                          [400, 350, 'platform', 2], [-400, 350, 'platform', 2]];
 
 var music;
+var sfx;
+
+var Explosion = function() {
+  var played = false;
+  this.play = function() {
+    if (!played) {
+      played = true;
+      sfx.play('explosion');
+    }
+  };
+  this.stop = function() {
+    played = false;
+    sfx.stop('explosion');
+  };
+};
+
+var explosion = new Explosion();
 
 var create = function(){
   socket = io.connect();
@@ -48,6 +65,8 @@ var create = function(){
   // Instantiate object to hold other chickens
   otherChickens = {};
 
+
+
   // Respawns the player
   socket.on('newLocation', function(data){
     player = new Player(game, data.x, data.y, false);
@@ -55,6 +74,8 @@ var create = function(){
     setCamera();
     player.addUsernameLabel(playerUsername);
     lava.bringToTop();
+    explosion.stop();
+    music.play();
   });
 
   // Syncs player to the server
@@ -85,6 +106,10 @@ var create = function(){
   // Music
   music = game.add.audio('boden');
   music.play();
+
+  // Sound Effects
+  sfx = game.add.audio('explosion');
+  sfx.addMarker('explosion', 1, 2.5);
 };
 
 var pauseGame = function() {
@@ -185,3 +210,4 @@ var setCamera = function(){
                                               game.camera.height - cameraMargin * 2);
   game.camera.focusOnXY(0, 0);
 };
+
