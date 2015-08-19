@@ -135,11 +135,11 @@ var collideChickens = function(otherChicken, thisChicken) {
     var diff = otherChicken.body.velocity.x + thisChicken.body.velocity.x;
     if (diff > 0) {
       // left.body.velocity.x = 0;
-      right.body.velocity.x = right.body.velocity.x * 1.5;
+      right.body.velocity.x = right.body.velocity.x + left.body.velocity.x;
       stopping = left;
     } else {
       // right.body.velocity.x = 0;
-      left.body.velocity.x = left.body.velocity.x * 1.5;
+      left.body.velocity.x = left.body.velocity.x + right.body.velocity.x;
       stopping = right;
     }
     stopping.body.velocity.x = 0;
