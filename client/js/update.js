@@ -17,12 +17,15 @@ var update = function(){
     score.lifespan = 1;
   }
 
+
   syncTimer++;
   // Game updates every 2 frames with last update data received
   if (!game.paused && syncTimer % syncRate === 0 && lastData) {
 
     var syncKeys = Object.keys(lastData);
+    scoreList = [];
     syncKeys.forEach(function(chicken) {
+      scoreList.push([lastData[chicken].username, lastData[chicken].kills]);
       if (chicken !== socket.id) {
         if (otherChickens[chicken]) {
           syncExistingChicken(otherChickens[chicken], lastData[chicken]);
@@ -42,6 +45,10 @@ var update = function(){
         delete otherChickens[chicken];
       }
     }
+    // sort the score list by score in descending order; each element is in the form [username, score]
+    scoreList.sort(function (a, b) {
+      return b[1] - a[1];
+    });
 
     lastData = null;
 
@@ -53,6 +60,7 @@ var update = function(){
                         });
 
   }
+  displayScoreBoard(scoreList);
 
   game.physics.arcade.collide(player, platforms);
 
@@ -158,4 +166,22 @@ var sendSync = function() {
                        'dashBool': dashButton.isDown
                       }
              );
+};
+
+var displayScoreBoard = function(data) {
+  var scoreboard = game.add.bitmapText(
+    0,
+    0,
+    'carrier_command',
+    '-- SCOREBOARD -- ',
+    30
+  );
+
+  for (var i = 0; i < Math.min(data.length, 5); i++) {
+    scoreboard.text += '\n' + data[i][0] + ': ' + data[i][1];
+  }
+
+  scoreboard.fixedToCamera = true;
+  scoreboard.cameraOffset.setTo(game.camera.width - scoreboard.width, 10);
+  scoreboard.lifespan = 1;
 };

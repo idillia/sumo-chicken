@@ -1,5 +1,6 @@
 var lastData = null;
-
+var scoreList = [];
+  
 // platforms are [x, y, spriteKey, scale] and ordered by height
 var platformLocations = [[0, -175, 'platform', 2],
                          [800, -175, 'platform', 2], [-800, -175, 'platform', 2],
