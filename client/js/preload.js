@@ -18,4 +18,5 @@ var preload = function(){
 
   // load sound effects
   game.load.audio('explosion', 'assets/audio/explosion.wav');
+  game.load.audio('audioSprite', 'assets/audio/fx_mixdown.ogg');
 };
