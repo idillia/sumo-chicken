@@ -38,7 +38,6 @@ io.on('connection', function(socket) {
   
   socket.emit('syncHeart', heartsUtils.getHearts());
 
-
   // TODO: Make this lobby-specific updating
   socket.on('heartKill', function(data){
     console.log("Server received heartkill from "+socket.id);

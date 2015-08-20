@@ -20,6 +20,22 @@ module.exports = function(grunt) {
       }
     },
 
+    concat: {
+      options: {
+        separator: ';',
+      },
+      dist: {
+        src: [
+          'client/js/player.js',
+          'client/js/preload.js',
+          'client/js/create.js',
+          'client/js/update.js',
+          'client/js/game.js'
+        ],
+        dest: 'public/build.js',
+      },
+    },
+
     uglify: {
       js: {
         files: {
@@ -63,6 +79,7 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks('grunt-contrib-uglify');
   grunt.loadNpmTasks('grunt-shell');
   grunt.loadNpmTasks('grunt-nodemon');
+  grunt.loadNpmTasks('grunt-contrib-concat');
 
   grunt.registerTask('install',
     ['shell:install']
@@ -70,7 +87,7 @@ module.exports = function(grunt) {
 
   grunt.registerTask('build',
     ['jshint',
-     'uglify']
+     'concat']
   );
 
   grunt.registerTask('start',

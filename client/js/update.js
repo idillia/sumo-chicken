@@ -140,6 +140,7 @@ var update = function(){
 
 var collectHeart =  function (player, heart) {
     // Removes the star from the screen
+    console.log("heart killed, heart id: "+heart.id);
     heart.kill();
     scoreHeart += 10;
     scoreTextHeart.text = 'collected: ' + scoreHeart;

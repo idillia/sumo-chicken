@@ -50,8 +50,8 @@ var create = function(){
 
   socket = io.connect();
   socket.on('syncHeart', function(gameHearts){
-    console.log('create.js on client: syncHeart fired, gameHearts: ');
-    console.log(gameHearts);
+    // console.log('create.js on client: syncHeart fired, gameHearts: ');
+    // console.log(gameHearts);
     createHearts(gameHearts);
   });
   createHearts();
@@ -252,8 +252,8 @@ var createHearts = function(gameHearts){
       data = heartData[key];
 
       var heart = hearts.create(data.positionX, data.positionY, 'heart');
-      console.log('client, creat.js, heart created, ');
-      console.log(heart);
+      // console.log('client, creat.js, heart created, ');
+      // console.log(heart);
       heart.scale.x = 0.5;
       heart.scale.y = 0.5;
       heart.id = data.id;
@@ -262,14 +262,11 @@ var createHearts = function(gameHearts){
   // });
 
   socket.on('heartKill', function(data){
-    console.log("Client received heartkill");
+    // hearts.filter(function(child){return child.id === 8}).first.kill();
     var heartID = data.heart;
+    console.log("Client received heartkill, heartID: "+heartID);
     // TODO: update other player score
-    var deadHeart = hearts.filter(function(heart){
-      return heartID === heart.id;
-    });
-    
-    console.log(deadHeart);
+    hearts.filter(function(child){return child.id === heartID;}).first.kill();
 
   });
   scoreTextHeart = game.add.bitmapText(0, 0, 'carrier_command', 'collected: 0', 30);
