@@ -254,7 +254,6 @@ var createHearts = function(gameHearts){
   socket.on('heartKill', function(data){
     // hearts.filter(function(child){return child.id === 8}).first.kill();
     var heartID = data.heart;
-    console.log("Client received heartkill, heartID: "+heartID);
     // TODO: update other player score
     hearts.filter(function(child){return child.id === heartID;}).first.kill();
 

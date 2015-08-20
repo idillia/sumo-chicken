@@ -22,6 +22,7 @@ var getPlayers = function() {
   return playerInformation;
 };
 
+// This returns players loc info, NOT their socket IDs
 var getPlayersByLobby = function(socketID) {
   var lobby = serverUtils.getLobbyById(socketID);
   var playerIDs = lobby.getPlayerIDs();
