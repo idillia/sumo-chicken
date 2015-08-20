@@ -27,7 +27,7 @@ var update = function(){
     syncKeys.forEach(function(chicken) {
       scoreList.push([lastData[chicken].username, lastData[chicken].kills]);
       if (chicken !== socket.id) {
-        console.log(lastData[chicken]);
+        // console.log(lastData[chicken]);
         if (otherChickens[chicken]) {
           syncExistingChicken(otherChickens[chicken], lastData[chicken]);
           
@@ -137,6 +137,8 @@ var collectHeart =  function (player, heart) {
     heart.kill();
     scoreHeart += 10;
     scoreTextHeart.text = 'collected: ' + scoreHeart;
+    socket.emit('heartKill', {heart:heart.id, score: scoreHeart});
+
 };
 
 var collideChickens = function(otherChicken, thisChicken) {

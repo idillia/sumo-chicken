@@ -55,7 +55,7 @@ var create = function(){
 
   //  Phaser will automatically pause if the browser tab the game is in loses focus. Disabled this below.
   //  NOTE: Uncomment the following line for testing if you want to have two games playing in two browsers.
-  // this.stage.disableVisibilityChange = true;
+  this.stage.disableVisibilityChange = true;
 
   game.world.setBounds(-2000, -2000, 4000, 4000 );
   game.time.desiredFps = 45;
@@ -246,9 +246,22 @@ var createHearts = function(gameHearts){
       console.log(heart);
       heart.scale.x = 0.5;
       heart.scale.y = 0.5;
+      heart.id = data.id;
       heart.body.immovable = true; 
     }
   // });
+
+  socket.on('heartKill', function(data){
+    console.log("Client received heartkill");
+    var heartID = data.heart;
+    // TODO: update other player score
+    var deadHeart = hearts.filter(function(heart){
+      return heartID === heart.id;
+    });
+    
+    console.log(deadHeart);
+
+  });
   scoreTextHeart = game.add.bitmapText(0, 0, 'carrier_command', 'collected: 0', 30);
   scoreTextHeart.fixedToCamera = true;
   scoreTextHeart.cameraOffset.setTo(10, 10);
