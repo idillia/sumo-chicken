@@ -8,7 +8,7 @@ var update = function(){
     var score = game.add.bitmapText(-100,
                                   - game.camera.height / 2 + 30,
                                   'carrier_command',
-                                  'SCORE:'+player.score, 30);
+                                  'SCORE:'+player.score+'\nLEVEL:'+player.level, 30);
 
 
     score.fixedToCamera = true;
@@ -25,7 +25,7 @@ var update = function(){
     var syncKeys = Object.keys(lastData);
     scoreList = [];
     syncKeys.forEach(function(chicken) {
-      scoreList.push([lastData[chicken].username, lastData[chicken].kills]);
+      scoreList.push([lastData[chicken].username, lastData[chicken].score]);
       if (chicken !== socket.id) {
         if (otherChickens[chicken]) {
           syncExistingChicken(otherChickens[chicken], lastData[chicken]);
@@ -33,9 +33,10 @@ var update = function(){
           addNewChicken(chicken, lastData[chicken]);
         }
       } else {
-        if (player.score !== lastData[chicken].kills) {
-          player.score = lastData[chicken].kills;
-          upgradeChicken(player, player.score);
+        player.score = lastData[chicken].score;
+        if (player.level !== lastData[chicken].kills) {
+          player.level = lastData[chicken].kills;
+          upgradeChicken(player, player.level);
         }
       }
     });

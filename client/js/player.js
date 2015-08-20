@@ -15,6 +15,7 @@ Player = function(game, x, y, socketId) {
   this.socketId = socketId;
   this.lastCollidedWith = null;
   this.score = 0;
+  this.level = 0;
 
   this.paused = false;
   this.hasNameLabel = false;

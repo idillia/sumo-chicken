@@ -13,6 +13,7 @@ var Player = function() {
     positionX: startingLocation.x,
     positionY: startingLocation.y,
     dashingBool: false,
+    score: 0,
     kills: 0,
     paused: false,
   };

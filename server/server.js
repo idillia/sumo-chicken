@@ -31,9 +31,22 @@ io.on('connection', function(socket) {
   });
   
   socket.on('death', function(data) {
-    // console.log('Death: ', socket.id, 'Killed by: ', data.killer);
-    playerUtils.resetKills(socket.id);
-    if (data.killer !== null) playerUtils.incrementKills(data.killer);
+    var player = playerUtils.getPlayers()[socket.id];
+    var killer = (data.killer === null) ? null : playerUtils.getPlayers()[data.killer];
+    if (mode === 'Kill Count') {
+      player.kills = 0;
+      if (data.killer !== null) {
+        killer.kills++;
+        killer.score++;
+      }
+    } else { // Classic
+      player.kills = 0;
+      player.score = 0;
+      if (killer !== null) {
+        killer.kills++;
+        killer.score++;
+      }
+    }
     socket.emit('newLocation', playerUtils.getStartLoc());
   });
 
