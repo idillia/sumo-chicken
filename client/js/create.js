@@ -36,7 +36,7 @@ var Explosion = function() {
 var explosion = new Explosion();
 
 var create = function(){
-  socket = io.connect();
+  socket = io.connect({query: 'mode=' + selectedMode});
   socket.emit('username', {username: playerUsername});
 
   //  Phaser will automatically pause if the browser tab the game is in loses focus. Disabled this below.
