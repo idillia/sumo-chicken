@@ -1,11 +1,7 @@
-var host = exports.host;
-
-exports.checkForOrSetHost = function(socketID) {
-  if(!host) host = socketID;
-  console.log("Hearts game host: "+socketID);
-};
-
+// gameHearts and gameStart are lobby-specific 
+// refactor to be lobby specific
 var gameHearts = {};
+var gameStart = false;
 
 var randomLocationGenerator = function(){
   // positionX -2000, 2000
@@ -35,10 +31,12 @@ var removeHeart = function(id){
   delete gameHearts[id];
 };
 
-var gameStart = false;
 
 var gameStarted = function(){
   return gameStart;
+};
+var addHeart = function(x,y){
+
 };
 
 var startingHearts = function(){

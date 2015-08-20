@@ -38,12 +38,12 @@ var Explosion = function() {
 
 var explosion = new Explosion();
 
-
 var hearts,
     score = 0,
     scoreText,
     scoreHeart = 0,
     scoreTextHeart;
+
 var create = function(){
 
   socket = io.connect({query: 'mode=' + selectedMode});
@@ -269,8 +269,16 @@ var createHearts = function(gameHearts){
 
   });
   scoreTextHeart = game.add.bitmapText(0, 0, 'carrier_command', 'collected: 0', 30);
+
   scoreTextHeart.fixedToCamera = true;
-  scoreTextHeart.cameraOffset.setTo(10, 10);
+  scoreTextHeart.cameraOffset.setTo(10, 110);
+
+   game.time.events.add(6750, function() {
+    game.add.tween(scoreTextHeart.cameraOffset).to({x:10, y:10}, 1500, Phaser.Easing.Linear.None, true);
+  }, this);
+
+
+
 
   // //  Here we'll create 12 of them evenly spaced apart
   //   for (var i = 0; i < 15; i++)
