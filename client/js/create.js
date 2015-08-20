@@ -39,11 +39,23 @@ var Explosion = function() {
 var explosion = new Explosion();
 
 
-var heart;
-var score = 0;
-var scoreText;
+var hearts,
+    score = 0,
+    scoreText,
+    scoreHeart = 0,
+    scoreTextHeart;
 var create = function(){
+
   socket = io.connect({query: 'mode=' + selectedMode});
+
+  socket = io.connect();
+  socket.on('syncHeart', function(gameHearts){
+    console.log('create.js on client: syncHeart fired, gameHearts: ');
+    console.log(gameHearts);
+    createHearts(gameHearts);
+  });
+  createHearts();
+
   socket.emit('username', {username: playerUsername});
 
   //  Phaser will automatically pause if the browser tab the game is in loses focus. Disabled this below.
@@ -228,14 +240,28 @@ var setCamera = function(){
   game.camera.focusOnXY(0, 0);
 };
 
-var createHearts = function(){
+var createHearts = function(gameHearts){
 
   hearts = game.add.group();
   hearts.enableBody = true;
 
-  socket.on('updateHearts', function(data){
-    heartData = data; 
-  })
+  // socket.on('syncHeart', function(gameHearts){
+    heartData = gameHearts; 
+    for(var key in heartData){
+      // data is an obj, ex {x:220, y:123, id:3}
+      data = heartData[key];
+
+      var heart = hearts.create(data.positionX, data.positionY, 'heart');
+      console.log('client, creat.js, heart created, ');
+      console.log(heart);
+      heart.scale.x = 0.5;
+      heart.scale.y = 0.5;
+      heart.body.immovable = true; 
+    }
+  // });
+  scoreTextHeart = game.add.bitmapText(0, 0, 'carrier_command', 'collected: 0', 30);
+  scoreTextHeart.fixedToCamera = true;
+  scoreTextHeart.cameraOffset.setTo(10, 10);
 
   // //  Here we'll create 12 of them evenly spaced apart
   //   for (var i = 0; i < 15; i++)
@@ -248,12 +274,8 @@ var createHearts = function(){
 
   //       //  This just gives each star a slightly random bounce value
   //       // heart.body.bounce.y = 0.7 + Math.random() * 0.2;
-    }
-  
-  scoreTextHeart = game.add.bitmapText(0, 0, 'carrier_command', 'collected: 0', 30);
-  scoreTextHeart.fixedToCamera = true;
-  scoreTextHeart.cameraOffset.setTo(10, 10);
-
 };
+  
+
 
 

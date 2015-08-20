@@ -27,7 +27,11 @@ io.on('connection', function(socket) {
 
   // TODO: add handling for mode selection, add mode as second argument to the following function call:
   playerUtils.newPlayer(socket.id);
+
   if(!heartsUtils.gameStart) heartsUtils.startingHearts();
+
+
+  socket.emit('syncHeart', heartsUtils.getHearts());
 
   socket.on('username', function(data) {
     playerUtils.setUsername(socket.id, data.username);
@@ -36,6 +40,7 @@ io.on('connection', function(socket) {
   socket.on('sync', function(data) {
     playerUtils.updatePlayer(socket.id, data);
   });
+
   
   socket.on('death', function(data) {
     var player = playerUtils.getPlayers()[socket.id];

@@ -83,7 +83,7 @@ var update = function(){
   });
 
   //On overlap, have hearts disappear
-  game.physics.arcade.overlap(player, heart, collectHeart , null, this);
+  game.physics.arcade.overlap(player, hearts, collectHeart , null, this);
 
 
   for (var key in otherChickens) {
