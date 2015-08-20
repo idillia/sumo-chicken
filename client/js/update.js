@@ -184,7 +184,7 @@ var displayScoreBoard = function(data) {
   );
 
   for (var i = 0; i < Math.min(data.length, 5); i++) {
-    scoreboard.text += '\n' + data[i][0] + ': ' + data[i][1];
+    scoreboard.text += '\n' + data[i][0] + (data[i][1] > 9 ? ':' : ': ') + data[i][1];
   }
 
   scoreboard.align = 'right';
