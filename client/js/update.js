@@ -179,7 +179,7 @@ var displayScoreBoard = function(data) {
     0,
     0,
     'carrier_command',
-    '-- SCOREBOARD -- ',
+    '- TOP 5 - ',
     30
   );
 
