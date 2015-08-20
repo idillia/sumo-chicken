@@ -40,12 +40,19 @@ io.on('connection', function(socket) {
 
   // TODO: Make this lobby-specific updating
   socket.on('heartKill', function(data){
+    var lobbyPlayersIDs = serverUtils.getLobbyById(socket.id).getPlayerIDs();
     console.log("Server received heartkill from "+socket.id);
-    io.emit('heartKill', {
-      player:socket.id,
-      heart: data.heart,
-      score: data.score
+    console.log("HeartKill: Lobby player IDs: ");
+    console.log(lobbyPlayersIDs);
+    lobbyPlayersIDs.forEach(function(socketID){
+      io.sockets.connected[socketID].emit('heartKill',{
+        player:socket.id,
+        heart: data.heart,
+        score: data.score
+      });
     });
+    
+    
   });
 
   socket.on('username', function(data) {
@@ -102,3 +109,10 @@ setInterval(function() {
     io.sockets.connected[socketID].emit('sync', playerUtils.getPlayersByLobby(socketID));
   });
 }, 50);
+
+/*
+
+
+
+
+*/
