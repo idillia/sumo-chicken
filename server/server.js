@@ -31,19 +31,17 @@ io.on('connection', function(socket) {
 
   if(!heartsUtils.gameStart) heartsUtils.startingHearts();
 
-
-
   console.log("Hearts game started? "+heartsUtils.gameStarted());
   if(!heartsUtils.gameStarted()) heartsUtils.startingHearts();
   
   socket.emit('syncHeart', heartsUtils.getHearts());
-
-  // TODO: Make this lobby-specific updating
+  
   socket.on('heartKill', function(data){
     var lobbyPlayersIDs = serverUtils.getLobbyById(socket.id).getPlayerIDs();
-    console.log("Server received heartkill from "+socket.id);
-    console.log("HeartKill: Lobby player IDs: ");
-    console.log(lobbyPlayersIDs);
+
+    // Remove the heart from the source of truth 
+    heartsUtils.removeHeart(data.heart);
+
     lobbyPlayersIDs.forEach(function(socketID){
       io.sockets.connected[socketID].emit('heartKill',{
         player:socket.id,

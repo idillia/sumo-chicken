@@ -30,6 +30,11 @@ var getHearts = function() {
   return gameHearts;
 };
 
+var removeHeart = function(id){
+  if(!gameHearts[id]) return null;
+  delete gameHearts[id];
+};
+
 var gameStart = false;
 
 var gameStarted = function(){
@@ -50,5 +55,6 @@ var startingHearts = function(){
 module.exports = {
   getHearts: getHearts,
   startingHearts: startingHearts,
-  gameStarted: gameStarted
+  gameStarted: gameStarted,
+  removeHeart: removeHeart
 };
