@@ -77,6 +77,7 @@ var pausePlayer = function(socketID, pausedOrResumed) {
   playerInformation[socketID].paused = pausedOrResumed;
 };
 
+
 module.exports = {
   newPlayer : newPlayer,
   setUsername : setUsername,

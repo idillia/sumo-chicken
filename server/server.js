@@ -3,6 +3,7 @@ var express     = require('express'),
     path        = require('path'),
     playerUtils = require('./playerUtils.js'),
     serverUtils = require('./serverUtils.js');
+    heartsUtils = require('./heartsUtils.js');
 
 var app = express();
 var server = http.Server(app);
@@ -19,8 +20,14 @@ io.on('connection', function(socket) {
   console.log('Connected: ', socket.id);
   connectedSockets.push(socket.id);
 
+
   var mode = socket.handshake.query.mode;
   playerUtils.newPlayer(socket.id, mode);
+
+
+  // TODO: add handling for mode selection, add mode as second argument to the following function call:
+  playerUtils.newPlayer(socket.id);
+  if(!heartsUtils.gameStart) heartsUtils.startingHearts();
 
   socket.on('username', function(data) {
     playerUtils.setUsername(socket.id, data.username);

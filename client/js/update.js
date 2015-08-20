@@ -70,14 +70,19 @@ var update = function(){
   displayScoreBoard(scoreList);
 
   game.physics.arcade.collide(player, platforms);
-  // heart 1 line
-  game.physics.arcade.collide(heart, platforms);
-  // Ensure that players cannot go through the platforms if other players jump on them
+
+  // Remove hearts that overlap with existing platforms
+  game.physics.arcade.overlap(hearts, platforms, function(heart, platform){
+    heart.kill();
+  });
+
+  // heart 1 line  // Ensure that players cannot go through the platforms if other players jump on them
   game.physics.arcade.overlap(player, platforms, function(playerSprite, platform) {
     var abovePlatform = platform.top - (playerSprite.height/2) - 5; // 5 is to offset player.js line 18
     playerSprite.y = abovePlatform;
   });
-  //hear 1 line
+
+  //On overlap, have hearts disappear
   game.physics.arcade.overlap(player, heart, collectHeart , null, this);
 
 
@@ -132,11 +137,12 @@ var update = function(){
     explosion.play();
   }
 
+
 var collectHeart =  function (player, heart) {
     // Removes the star from the screen
     heart.kill();
-    score += 10;
-    scoreText.bitmapText = 'collected: ' + score;
+    scoreHeart += 10;
+    scoreTextHeart.text = 'collected: ' + scoreHeart;
 };
 
 var collideChickens = function(otherChicken, thisChicken) {
