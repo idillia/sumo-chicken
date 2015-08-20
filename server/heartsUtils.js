@@ -32,6 +32,10 @@ var getHearts = function() {
 
 var gameStart = false;
 
+var gameStarted = function(){
+  return gameStart;
+};
+
 var startingHearts = function(){
   for (var i=0; i<25; i++) {
     var heart = Heart(i*80-1000, randomLocationGenerator().y);
@@ -40,9 +44,11 @@ var startingHearts = function(){
     gameHearts[i] = heart;
   }
   gameStart = true;
+  console.log("startingHearts complete, gameStart: "+gameStart);
 };
 
 module.exports = {
   getHearts: getHearts,
-  startingHearts: startingHearts
+  startingHearts: startingHearts,
+  gameStarted: gameStarted
 };
