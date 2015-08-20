@@ -38,6 +38,17 @@ io.on('connection', function(socket) {
   
   socket.emit('syncHeart', heartsUtils.getHearts());
 
+
+  // TODO: Make this lobby-specific updating
+  socket.on('heartKill', function(data){
+    console.log("Server received heartkill from "+socket.id);
+    io.emit('heartKill', {
+      player:socket.id,
+      heart: data.heart,
+      score: data.score
+    });
+  });
+
   socket.on('username', function(data) {
     playerUtils.setUsername(socket.id, data.username);
   });
@@ -86,6 +97,9 @@ io.on('connection', function(socket) {
 // SENT: a hash with player information at corresponding socketIDs
 setInterval(function() {
   connectedSockets.forEach(function(socketID) {
+
+    // Only send sync info for players that are also in the same lobby
+    // as the user with socketID.
     io.sockets.connected[socketID].emit('sync', playerUtils.getPlayersByLobby(socketID));
   });
 }, 50);
