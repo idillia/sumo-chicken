@@ -187,6 +187,7 @@ var displayScoreBoard = function(data) {
     scoreboard.text += '\n' + data[i][0] + ': ' + data[i][1];
   }
 
+  scoreboard.align = 'right';
   scoreboard.fixedToCamera = true;
   scoreboard.cameraOffset.setTo(game.camera.width - scoreboard.width, 10);
   scoreboard.lifespan = 1;
