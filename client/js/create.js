@@ -17,6 +17,7 @@ var platformLocations = [[0, -175, 'platform', 2],
 
 var music;
 var sfx;
+var audioSprite;
 
 var Explosion = function() {
   var played = false;
@@ -40,7 +41,7 @@ var create = function(){
 
   //  Phaser will automatically pause if the browser tab the game is in loses focus. Disabled this below.
   //  NOTE: Uncomment the following line for testing if you want to have two games playing in two browsers.
-  // this.stage.disableVisibilityChange = true;
+   this.stage.disableVisibilityChange = true;
 
   game.world.setBounds(-2000, -2000, 4000, 4000 );
   game.time.desiredFps = 45;
@@ -110,6 +111,10 @@ var create = function(){
   // Sound Effects
   sfx = game.add.audio('explosion');
   sfx.addMarker('explosion', 1, 2.5);
+  audioSprite = game.add.audio('audioSprite');
+  audioSprite.addMarker('bump', 1, 1.0);
+  audioSprite.addMarker('dash', 12, 4.2);
+  audioSprite.addMarker('jump', 8, 0.5);
 };
 
 var pauseGame = function() {

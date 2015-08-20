@@ -113,6 +113,7 @@ var update = function(){
   // Increase stored dashMeter
   player.chargeDash();
 
+  // chicken falls below lava
   if (player.y > 365) {
     music.stop();
     explosion.play();
@@ -120,6 +121,7 @@ var update = function(){
 };
 
 var collideChickens = function(otherChicken, thisChicken) {
+  audioSprite.play('bump');
   if (!otherChicken.paused) {
     thisChicken.lastCollidedWith = otherChicken.socketId;
     var right;
