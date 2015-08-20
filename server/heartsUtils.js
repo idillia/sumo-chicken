@@ -14,16 +14,15 @@ var randomLocationGenerator = function(){
     return Math.random() > 0.5 ? -1 : 1;
   };
 
-  var x = Math.floor(Math.random()*1500*neg());
-  var y = Math.floor(Math.random()*(1500-400)+400);
+  var x = Math.floor(Math.random()*1000*neg());
+  var y = Math.floor(Math.random()*(300+400)-400);
   return {x:x, y:y};
 };
 
-var Heart = function() {
-  var loc = randomLocationGenerator();
+var Heart = function(x,y) {
   return {
-    positionX: loc.x,
-    positionY: loc.y,
+    positionX: x,
+    positionY: y,
   };
 };
 
@@ -34,8 +33,8 @@ var getHearts = function() {
 var gameStart = false;
 
 var startingHearts = function(){
-  for (var i=0; i<15; i++) {''
-    var heart = Heart();
+  for (var i=0; i<25; i++) {
+    var heart = Heart(i*80-1000, randomLocationGenerator().y);
     // TODO: unique id
     heart.id = i;
     gameHearts[i] = heart;
