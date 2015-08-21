@@ -29,14 +29,16 @@ io.on('connection', function(socket) {
   playerUtils.newPlayer(socket.id);
 
 
-  if(!heartsUtils.gameStart) heartsUtils.startingHearts();
+  if(!heartsUtils.gameStarted()) heartsUtils.startingHearts();
 
   console.log("Hearts game started? "+heartsUtils.gameStarted());
+
   if(!heartsUtils.gameStarted()) heartsUtils.startingHearts();
   
   socket.emit('syncHeart', heartsUtils.getHearts());
   
   socket.on('heartKill', function(data){
+
     var lobbyPlayersIDs = serverUtils.getLobbyById(socket.id).getPlayerIDs();
 
     // Remove the heart from the source of truth 

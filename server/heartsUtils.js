@@ -40,6 +40,7 @@ var addHeart = function(x,y){
 };
 
 var startingHearts = function(){
+  console.log("server: calling starting hearts");
   for (var i=0; i<25; i++) {
     var heart = Heart(i*80-1000, randomLocationGenerator().y);
     // TODO: unique id

@@ -39,6 +39,7 @@ var update = function(){
         if (player.level !== lastData[chicken].kills) {
           player.level = lastData[chicken].kills;
           upgradeChicken(player, player.level);
+        }
         if (player.score !== lastData[chicken].kills) {
           console.log(player.score);
           player.score = lastData[chicken].kills;
@@ -128,14 +129,14 @@ var update = function(){
   // Increase stored dashMeter
   player.chargeDash();  
 
-
-};
-
   // chicken falls below lava
   if (player.y > 365) {
     music.stop();
     explosion.play();
   }
+
+};
+
 
 
 var collectHeart =  function (player, heart) {
