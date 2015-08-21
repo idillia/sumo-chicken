@@ -24,18 +24,21 @@ io.on('connection', function(socket) {
   var mode = socket.handshake.query.mode;
   playerUtils.newPlayer(socket.id, mode);
 
+  var playerLobby = serverUtils.getLobbyById(socket.id);
+  
+
 
   // TODO: add handling for mode selection, add mode as second argument to the following function call:
+  
+  // This is where players are added to a Lobby
   playerUtils.newPlayer(socket.id);
 
 
   if(!heartsUtils.gameStarted()) heartsUtils.startingHearts();
 
   console.log("Hearts game started? "+heartsUtils.gameStarted());
-
-  if(!heartsUtils.gameStarted()) heartsUtils.startingHearts();
   
-  socket.emit('syncHeart', heartsUtils.getHearts());
+  if(mode === 'Hearts') socket.emit('syncHeart', heartsUtils.getHearts());
   
   socket.on('heartKill', function(data){
 

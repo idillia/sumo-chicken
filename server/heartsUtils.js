@@ -35,6 +35,8 @@ var removeHeart = function(id){
 var gameStarted = function(){
   return gameStart;
 };
+
+// TODO if time: add random hearts
 var addHeart = function(x,y){
 
 };
